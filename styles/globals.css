@@ -1,0 +1,78 @@
+@import '~antd/dist/antd.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+background: url('https://images.squarespace-cdn.com/content/v1/5da5d63bc3767433e9d17b8f/1582728078517-182KGWH0JBKB38UXWCQZ/brown-and-white-swallowtail-butterfly+2bw.jpg');
+	height: 100vh;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+
+.card-desc{
+    background: linear-gradient(-45deg, #000E37, #575556, #000, #fff);
+	animation: gradient 15s ease alternate infinite;
+    background-size: 400% 400%;
+        position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer,.header{
+   background: linear-gradient(-45deg, #000E37, #575556, #000);
+	animation: gradient 15s ease alternate infinite;
+    background-size: 400% 400%;
+}
+
+
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+#content{
+    position: relative
+}
+
+#content .content-overlay {
+  background: rgba(0,0,0,0.7);
+  width: 26vw;
+  height: 45vh;
+  position: absolute;
+  z-index: 4;
+  top:0;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease-in-out 0s;
+  -moz-transition: all 0.4s ease-in-out 0s;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+
+#content:hover .content-overlay{
+  opacity: 1;
+}
+
+
+span.MuiSlider-thumbColorPrimary.MuiSlider-thumbSizeMedium.MuiSlider-thumb {
+    width: 10px;
+    height:10px;
+    color: white;
+}
+
+span.MuiSlider-track{
+    border: transparent
+}
+
+.antd-input-number{
+    width: 100px;
+}
