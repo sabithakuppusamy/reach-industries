@@ -9,7 +9,7 @@ import NoData from "../../components/NoData";
 import { Spin } from "antd";
 
 const DeviceList = () => {
-  const [deviceData, setDeviceData] = useState<string[]>([]);
+  const [deviceData, setDeviceData] = useState<string[] | null>(null);
   const router = useRouter();
   const { userId, orgId } = router.query;
   const [isLoading, setIsLoading] = useState(true);
@@ -30,12 +30,12 @@ const DeviceList = () => {
       .catch((err) => {
         if (err.name === "AxiosError") {
           if (
-            (orgId as string)?.toLowerCase() === "lumi" ||
+            (orgId as string)?.toLowerCase() === "lumi" &&
             (userId as string)?.toLowerCase() === "100"
           ) {
             setDeviceData(["LabEye-dVr", "LabEye-H4O", "LabEye-OP2"]);
           } else {
-            setDeviceData([]);
+            setDeviceData(null);
           }
           setIsLoading(false);
         }
