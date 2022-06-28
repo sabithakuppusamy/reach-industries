@@ -6,6 +6,7 @@ import cvmData from "../../public/deviceData.js";
 import { InputNumber, Popover } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import NoData from "../../components/NoData";
 
 const useStyles = makeStyles({
   root: {
@@ -62,7 +63,7 @@ export default function DynamicPage() {
   const classes = useStyles();
 
   const popoverContent = (
-    <div>
+    <div bg-black text-white>
       <div className="flex justify-center align-middle">
         <span className=" mt-1 mr-4"> RGB: </span>
         <span
@@ -91,7 +92,7 @@ export default function DynamicPage() {
         display: "flex",
         flexDirection: "column",
         width: "60vw",
-        maxHeight: "100vh",
+        minHeight: "85vh",
         backgroundColor: "RGBA(255, 255, 255, 0.05)",
         backdropFilter: "blur(15px)",
         margin: "8vh auto 8vh",
@@ -120,7 +121,7 @@ export default function DynamicPage() {
             ></div>
           </Popover>
 
-          <h1 className="text-white font-thin text-left text-2xl mb-8">
+          <h1 className="text-white font-thin text-left text-2xl mb-4">
             {deviceName} {" details:"}
           </h1>
           <video
@@ -146,7 +147,7 @@ export default function DynamicPage() {
           >
             <source src="https://frontend-test-2022-bucket.s3.eu-west-2.amazonaws.com/frontend_test.mp4" />
           </video>
-          <div className="flex flex-row gap-4 justify-between mt-4">
+          <div className="flex flex-row gap-4 justify-between mt-8">
             <div className={classes.root} style={{ display: "flex", gap: 10 }}>
               Red:{" "}
               <CustomRedSlider max={1289} min={0} value={redValue} step={1} />
@@ -188,7 +189,7 @@ export default function DynamicPage() {
           </div>
         </div>
       ) : (
-        "No Data"
+        <NoData />
       )}
     </div>
   );

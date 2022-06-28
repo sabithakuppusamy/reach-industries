@@ -5,14 +5,14 @@
 
 body {
 background: url('https://images.squarespace-cdn.com/content/v1/5da5d63bc3767433e9d17b8f/1582728078517-182KGWH0JBKB38UXWCQZ/brown-and-white-swallowtail-butterfly+2bw.jpg');
-	height: 100vh;
+	min-height: 100vh;
     background-size: cover;
     padding: 0;
     margin: 0;
 }
 
 .card-desc{
-    background: linear-gradient(-45deg, #000E37, #575556, #000, #fff);
+    background: linear-gradient(-45deg, #000, #575556, #000, #fff);
 	animation: gradient 15s ease alternate infinite;
     background-size: 400% 400%;
         position: absolute;
@@ -20,10 +20,23 @@ background: url('https://images.squarespace-cdn.com/content/v1/5da5d63bc3767433e
     width: 100%;
 }
 
+.login-card{
+    background: linear-gradient(-45deg, #000, #575556, #000, #fff);
+	  animation: gradient 15s ease alternate infinite;
+     background-size: 400% 400%;
+     min-width: 20vw;
+     height: auto;
+      margin:auto;    
+    opacity: 0.9;
+    
+
+}
+
 footer,.header{
-   background: linear-gradient(-45deg, #000E37, #575556, #000);
+   background: linear-gradient(-45deg, #000, #575556, #000);
 	animation: gradient 15s ease alternate infinite;
     background-size: 400% 400%;
+
 }
 
 
@@ -75,4 +88,139 @@ span.MuiSlider-track{
 
 .antd-input-number{
     width: 100px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #090d12;
+    --card-background: #0d1117;
+    --text-primary: #ffffff;
+    --text-secondary: #BBBBBF;
+    --text-silent: #7d7d7d;
+    --card-border: #363c47;
+  }
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #f4f4f4;
+    --card-background: #ffffff;
+    --text-primary: #0d1117;
+    --text-secondary: #383838;
+    --text-silent: #5c5c5c;
+    --card-border: #a8a8ac;
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: no-wrap;
+  row-gap: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 50px 30px 20px 30px;
+   background: linear-gradient(-45deg, #575556, #000);
+	animation: gradient 15s ease alternate infinite;
+     background-size: 400% 400%;
+     min-width: 40vw;
+     height: auto;
+    margin:auto;    
+        opacity: 0.9;
+}
+
+.form-footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  column-gap: 20px;
+  padding-top: 20px;
+}
+
+button,
+input[type=submit] {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: inherit;
+  transition: 0.1s ease-in-out;
+}
+button.success,
+input[type=submit].success {
+  background-color: #0076BE;
+
+  color: #f4f4f4;
+}
+button.success:hover,
+input[type=submit].success:hover {
+  color: #f4f4f4;
+  background-color:#0076BE;
+}
+
+button.soft,
+input[type=submit].soft {
+  color: var(--text-primary);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.google-input {
+  position: relative;
+  height: fit-content;
+  width: fit-content;
+}
+.google-input label {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  width: max-content;
+  transition: all 0.2s ease-in-out;
+  background: var(--card-background);
+  color: var(--text-secondary);
+  padding: 5px 7px;
+  border-radius: 10px;
+  pointer-events: none;
+}
+.google-input input {
+  position: relative;
+  top: 0;
+  left: 0;
+  min-width: 30vw;
+  height: 50px;
+  border-radius: 6px;
+  background: var(--card-background);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  font-size: 16px;
+  padding: 0 10px;
+}
+.google-input input:focus {
+  border: 1px solid #0076BE;
+  outline: 1px solid #0076BE;
+  -webkit-transition: border 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out;
+}
+.google-input input:focus ~ label, .google-input input:not(:placeholder-shown) ~ label {
+  top: -14px;
+  font-size: 13px;
+}
+.google-input input:focus ~ label {
+  color: #0076BE;
+  font-weight: bolder;
+}
+
+@keyframes diffuse {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(210, 240, 255, 0.2));
+  }
+  50% {
+    filter: none;
+  }
+}
+input[type="submit"]:disabled {
+  opacity: 0.5!important;
+ cursor: not-allowed;
+  pointer-events: all !important;
 }

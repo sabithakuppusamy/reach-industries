@@ -1,58 +1,54 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 
 export const HomeContent = () => {
-  const [deviceData, setDeviceData] = useState([]);
-
-  useEffect(() => {
-    fetchDeviceData();
-  }, []);
-
-  const fetchDeviceData = (): void => {
-    axios
-      .get("https://mockapi.lumi.systems/getdevices?userId=100&orgId=Lumi")
-      .then((res) => {
-        setDeviceData(res.data.output);
-      });
-  };
+  const [userId, setUserId] = useState("");
+  const [orgId, setOrgId] = useState("");
+  const router = useRouter();
 
   return (
-    <div className="flex flex-col min-h-[100vh] justify-center">
-      <div className="flex gap-4 justify-around flex-wrap my-8 mx-12">
-        {deviceData.map((deviceName: string) => (
-          <div
-            key={deviceName}
-            id="content"
-            className="flex flex-col justify-center w-[25vw] h-[45vh] hover:w-[26vw] transition-all bg-white rounded-md overflow-hidden shadow-md shadow-black cursor-pointer"
-          >
-            <div className="content-overlay flex flex-col justify-center">
-              <Link href={`/deviceData/${deviceName}`}>
-                <FontAwesomeIcon
-                  icon={faCircleArrowRight}
-                  className="text-white w-16 ml-[40%]"
-                />
-              </Link>
-              <h4 className="text-center font-sans font-thin my-4 text-lg text-white">
-                View details
-              </h4>
-            </div>
-
-            <Image
-              className="cursor-pointer hover:scale-110 transition-all object-contain"
-              width={250}
-              height={350}
-              src={`/${deviceName}.gif`}
-            />
-
-            <div className="card-desc text-white text-center font-mono font-medium cursor-pointer p-4">
-              {deviceName}
-            </div>
-          </div>
-        ))}
+    <div className="flex flex-col h-[100vh] justify-center align-middle">
+      <div className="form-container">
+        <p className="text-2xl font-thin text-white mb-4">
+          {" "}
+          Hello, Welcome back!
+        </p>
+        <div className="google-input">
+          <input
+            type="text"
+            id="template-input"
+            name="userId"
+            onChange={(e: any) => {
+              setUserId(e.target.value);
+            }}
+            placeholder=""
+          />
+          <label htmlFor="template-input">User ID</label>
+        </div>
+        <div className="google-input">
+          <input
+            type="text"
+            id="template-input"
+            name="orgId"
+            onChange={(e: any) => {
+              setOrgId(e.target.value);
+            }}
+            placeholder=""
+          />
+          <label htmlFor="template-input">Organization ID</label>
+        </div>
+        <div className="form-footer">
+          <input
+            type="submit"
+            value="Login"
+            className="success"
+            disabled={!userId.length || !orgId.length}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push(`/deviceList?userId=${userId}&&orgId=${orgId}`);
+            }}
+          />
+        </div>
       </div>
     </div>
   );

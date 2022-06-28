@@ -22,7 +22,7 @@ const Layout = (props: any) => {
           ></img>
           <div className="flex flex-col  justify-center items-center">
             <h2 className="text-center font-thin text-3xl text-white">
-              Lumi Device
+              Reach Industries
             </h2>
           </div>
         </div>
