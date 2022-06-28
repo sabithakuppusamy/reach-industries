@@ -1,8 +1,11 @@
 import Head from "next/head";
 import React from "react";
 import Footer from "./Footer";
+import { useRouter } from "next/router";
 
 const Layout = (props: any) => {
+  const router = useRouter();
+
   return (
     <div className="layout">
       <Head>
@@ -20,10 +23,20 @@ const Layout = (props: any) => {
             className="p-4"
             src="https://images.squarespace-cdn.com/content/v1/5da5d63bc3767433e9d17b8f/1571149443276-BDVW2RA2QMXQF3QMTIVA/ReachIndustries_Logo_09302016_white.png?format=1500w"
           ></img>
-          <div className="flex flex-col  justify-center items-center">
+          <div className="flex flex-row justify-between w-full items-center mr-4">
             <h2 className="text-center font-thin text-3xl text-white">
               Reach Industries
             </h2>
+            {router.pathname !== "/" && (
+              <h5
+                className="text-center font-thin text-sm text-white cursor-pointer hover:text-lg transition-all hover:font-light"
+                onClick={() => {
+                  router.push("/");
+                }}
+              >
+                Change User
+              </h5>
+            )}
           </div>
         </div>
         {props.children}

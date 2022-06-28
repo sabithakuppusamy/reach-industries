@@ -7,6 +7,7 @@ import { InputNumber, Popover, Spin } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import NoData from "../../components/NoData";
+import axios from "axios";
 
 const useStyles = makeStyles({
   root: {
@@ -64,10 +65,19 @@ export default function DynamicPage() {
   const classes = useStyles();
 
   useEffect(() => {
+    fetchDeviceDetails();
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
   }, []);
+
+  const fetchDeviceDetails = (): void => {
+    axios
+      .get(`https://mockapi.lumi.systems/getdevicedata?deviceId=${deviceName}`)
+      .then((res) => {
+        console.log(res);
+      });
+  };
 
   const popoverContent = (
     <div bg-black text-white>
@@ -94,36 +104,56 @@ export default function DynamicPage() {
   } = router;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "60vw",
-        minHeight: "85vh",
-        backgroundColor: "RGBA(255, 255, 255, 0.05)",
-        backdropFilter: "blur(15px)",
-        margin: "8vh auto 8vh",
-        padding: "4em",
-        paddingTop: "3em",
-      }}
-    >
-      <div>
-        <FontAwesomeIcon
-          icon={faArrowLeft}
-          className="w-6 z-10 text-white cursor-pointer"
-          onClick={() => {
-            router.back();
+    <>
+      {isLoading && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "60vw",
+            minHeight: "85vh",
+            backgroundColor: "RGBA(255, 255, 255, 0.05)",
+            backdropFilter: "blur(15px)",
+            margin: "8vh auto 8vh",
+            padding: "4em",
+            paddingTop: "3em",
           }}
-        />
-      </div>
-      {deviceName === "LabEye-dVr" ? (
-        isLoading ? (
+        >
           <div className="flex h-[70vh] justify-center items-center">
             <Spin size="large" />
           </div>
-        ) : (
+        </div>
+      )}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "60vw",
+          minHeight: "85vh",
+          backgroundColor: "RGBA(255, 255, 255, 0.05)",
+          backdropFilter: "blur(15px)",
+          margin: "8vh auto 8vh",
+          padding: "4em",
+          paddingTop: "3em",
+        }}
+      >
+        <div>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className="w-6 z-10 text-white cursor-pointer"
+            onClick={() => {
+              router.back();
+            }}
+          />
+        </div>
+
+        {deviceName === "LabEye-dVr" ? (
           <div className="relative my-4 mt-4">
-            <Popover content={popoverContent} visible={true} placement="right">
+            <Popover
+              content={popoverContent}
+              visible={!isLoading}
+              placement="right"
+            >
               <div
                 className="absolute w-[30%] h-[45%] border-solid border-8 left-[8em] top-[12em] right-0"
                 style={{
@@ -214,10 +244,10 @@ export default function DynamicPage() {
               </div>
             </div>
           </div>
-        )
-      ) : (
-        <NoData />
-      )}
-    </div>
+        ) : (
+          <NoData />
+        )}
+      </div>
+    </>
   );
 }

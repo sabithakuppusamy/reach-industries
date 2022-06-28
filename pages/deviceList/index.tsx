@@ -14,7 +14,6 @@ const DeviceList = () => {
 
   useEffect(() => {
     fetchDeviceData();
-    console.log(router.query, userId, orgId);
   }, []);
 
   const fetchDeviceData = (): void => {
