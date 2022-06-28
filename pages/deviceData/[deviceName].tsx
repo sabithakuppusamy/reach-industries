@@ -65,19 +65,10 @@ export default function DynamicPage() {
   const classes = useStyles();
 
   useEffect(() => {
-    fetchDeviceDetails();
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 3000);
   }, []);
-
-  const fetchDeviceDetails = (): void => {
-    axios
-      .get(`https://mockapi.lumi.systems/getdevicedata?deviceId=${deviceName}`)
-      .then((res) => {
-        console.log(res);
-      });
-  };
 
   const popoverContent = (
     <div bg-black text-white>
@@ -163,7 +154,7 @@ export default function DynamicPage() {
               ></div>
             </Popover>
 
-            <h1 className="text-white font-thin text-left text-2xl mb-4">
+            <h1 className="text-white font-light text-left text-2xl mb-4">
               {deviceName} {" details:"}
             </h1>
             <video
