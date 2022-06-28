@@ -1,9 +1,9 @@
 import Slider from "@mui/material/Slider";
 import { makeStyles, withStyles } from "@mui/styles";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cvmData from "../../public/deviceData.js";
-import { InputNumber, Popover } from "antd";
+import { InputNumber, Popover, Spin } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import NoData from "../../components/NoData";
@@ -59,8 +59,15 @@ export default function DynamicPage() {
   const [color, setColor] = useState("rgb(151,154,162)");
   const [frameNumber, setFrameNumber] = useState(0);
   const [histogram, setHistogram] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const classes = useStyles();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
   const popoverContent = (
     <div bg-black text-white>
@@ -110,84 +117,104 @@ export default function DynamicPage() {
         />
       </div>
       {deviceName === "LabEye-dVr" ? (
-        <div className="relative my-4 mt-4">
-          <Popover content={popoverContent} visible={true} placement="right">
-            <div
-              className="absolute w-[30%] h-[45%] border-solid border-8 left-[8em] top-[12em] right-0"
-              style={{
-                borderColor: color,
-                transition: "border-color 0.4s linear",
-              }}
-            ></div>
-          </Popover>
+        isLoading ? (
+          <div className="flex h-[70vh] justify-center items-center">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <div className="relative my-4 mt-4">
+            <Popover content={popoverContent} visible={true} placement="right">
+              <div
+                className="absolute w-[30%] h-[45%] border-solid border-8 left-[8em] top-[12em] right-0"
+                style={{
+                  borderColor: color,
+                  transition: "border-color 0.4s linear",
+                }}
+              ></div>
+            </Popover>
 
-          <h1 className="text-white font-thin text-left text-2xl mb-4">
-            {deviceName} {" details:"}
-          </h1>
-          <video
-            className="rounded-sm border-white border-[5px] shadow-md shadow-black"
-            controls={true}
-            ref={videoEl}
-            autoPlay
-            onTimeUpdate={(e) => {
-              Object.entries(cvmData.frame_data).forEach((item) => {
-                if (
-                  Math.ceil(parseInt(item[0]) / 12) ===
-                  Math.ceil((e.target as HTMLMediaElement).currentTime)
-                ) {
-                  setFrameNumber(parseInt(item[0]));
-                  setHistogram(item[1].histDiff);
-                  setRedValue(Math.ceil(item[1].avgR));
-                  setGreenValue(Math.ceil(item[1].avgG));
-                  setBlueValue(Math.ceil(item[1].avgB));
-                  setColor(`rgb(${redValue}, ${greenValue}, ${blueValue})`);
-                }
-              });
-            }}
-          >
-            <source src="https://frontend-test-2022-bucket.s3.eu-west-2.amazonaws.com/frontend_test.mp4" />
-          </video>
-          <div className="flex flex-row gap-4 justify-between mt-8">
-            <div className={classes.root} style={{ display: "flex", gap: 10 }}>
-              Red:{" "}
-              <CustomRedSlider max={1289} min={0} value={redValue} step={1} />
-              <InputNumber
-                className="antd-input-number"
-                min={0}
-                max={255}
-                value={redValue}
-                readOnly
-              />
-            </div>
-            <div className={classes.root} style={{ display: "flex", gap: 10 }}>
-              Green:{" "}
-              <CustomGreenSlider
-                max={1289}
-                min={0}
-                value={greenValue}
-                step={1}
-              />
-              <InputNumber
-                className="antd-input-number"
-                min={0}
-                max={255}
-                value={greenValue}
-                readOnly
-              />
-            </div>
-            <div className={classes.root} style={{ display: "flex", gap: 10 }}>
-              Blue:{" "}
-              <CustomBlueSlider max={1289} min={0} value={blueValue} step={1} />
-              <InputNumber
-                className="antd-input-number"
-                min={0}
-                max={255}
-                value={blueValue}
-                readOnly
-              />
+            <h1 className="text-white font-thin text-left text-2xl mb-4">
+              {deviceName} {" details:"}
+            </h1>
+            <video
+              className="rounded-sm border-white border-[5px] shadow-md shadow-black"
+              controls={true}
+              ref={videoEl}
+              autoPlay
+              onTimeUpdate={(e) => {
+                Object.entries(cvmData.frame_data).forEach((item) => {
+                  if (
+                    Math.ceil(parseInt(item[0]) / 12) ===
+                    Math.ceil((e.target as HTMLMediaElement).currentTime)
+                  ) {
+                    setFrameNumber(parseInt(item[0]));
+                    setHistogram(item[1].histDiff);
+                    setRedValue(Math.ceil(item[1].avgR));
+                    setGreenValue(Math.ceil(item[1].avgG));
+                    setBlueValue(Math.ceil(item[1].avgB));
+                    setColor(`rgb(${redValue}, ${greenValue}, ${blueValue})`);
+                  }
+                });
+              }}
+            >
+              <source src="https://frontend-test-2022-bucket.s3.eu-west-2.amazonaws.com/frontend_test.mp4" />
+            </video>
+            <div className="flex flex-row gap-4 justify-between mt-8">
+              <div
+                className={classes.root}
+                style={{ display: "flex", gap: 10 }}
+              >
+                Red:{" "}
+                <CustomRedSlider max={1289} min={0} value={redValue} step={1} />
+                <InputNumber
+                  className="antd-input-number"
+                  min={0}
+                  max={255}
+                  value={redValue}
+                  readOnly
+                />
+              </div>
+              <div
+                className={classes.root}
+                style={{ display: "flex", gap: 10 }}
+              >
+                Green:{" "}
+                <CustomGreenSlider
+                  max={1289}
+                  min={0}
+                  value={greenValue}
+                  step={1}
+                />
+                <InputNumber
+                  className="antd-input-number"
+                  min={0}
+                  max={255}
+                  value={greenValue}
+                  readOnly
+                />
+              </div>
+              <div
+                className={classes.root}
+                style={{ display: "flex", gap: 10 }}
+              >
+                Blue:{" "}
+                <CustomBlueSlider
+                  max={1289}
+                  min={0}
+                  value={blueValue}
+                  step={1}
+                />
+                <InputNumber
+                  className="antd-input-number"
+                  min={0}
+                  max={255}
+                  value={blueValue}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )
       ) : (
         <NoData />
       )}
